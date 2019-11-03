@@ -24,6 +24,20 @@ public class VarastoTest {
     public void konstruktoriLuoTyhjanVaraston() {
         assertEquals(0, varasto.getSaldo(), vertailuTarkkuus);
     }
+    
+    @Test
+    public void tilavuusEiNegatiivinen() {
+    	assertEquals(0, new Varasto(-1).getTilavuus(), vertailuTarkkuus);
+    }
+    
+    @Test
+    public void toinenConstructor() {
+    	assertEquals(0, new Varasto(-1, 1).getTilavuus(), vertailuTarkkuus);
+    	assertEquals(1, new Varasto(1, 1).getTilavuus(), vertailuTarkkuus);
+    	assertEquals(-1, new Varasto(-1, 1).getSaldo(), vertailuTarkkuus); // Bugi?
+    	assertEquals(1, new Varasto(1, 1).getSaldo(), vertailuTarkkuus);
+    	assertEquals(0, new Varasto(-1, -1).getSaldo(), vertailuTarkkuus);
+    }
 
     @Test
     public void uudellaVarastollaOikeaTilavuus() {
@@ -63,6 +77,33 @@ public class VarastoTest {
 
         // varastossa pitäisi olla tilaa 10 - 8 + 2 eli 4
         assertEquals(4, varasto.paljonkoMahtuu(), vertailuTarkkuus);
+    }
+    
+    @Test
+    public void virheetHylätään() {
+    	double vanhaSaldo = varasto.getSaldo();
+    	varasto.lisaaVarastoon(-1);
+    	assertEquals(vanhaSaldo, varasto.getSaldo(), vertailuTarkkuus);
+    	varasto.otaVarastosta(-1);
+    	assertEquals(vanhaSaldo, varasto.getSaldo(), vertailuTarkkuus);
+    }
+    
+    @Test
+    public void loppuiKesken() {
+    	varasto.lisaaVarastoon(10);
+    	assertEquals(10, varasto.otaVarastosta(11), vertailuTarkkuus);
+    	assertEquals(0, varasto.getSaldo(), vertailuTarkkuus);
+    }
+    
+    @Test
+    public void eiMahtunut() {
+    	varasto.lisaaVarastoon(11);
+    	assertEquals(10, varasto.getSaldo(), vertailuTarkkuus);
+    }
+    
+    @Test
+    public void merkkijono() {
+    	assertEquals("saldo = 0.0, vielä tilaa 10.0", varasto.toString());
     }
 
 }
