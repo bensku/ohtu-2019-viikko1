@@ -34,7 +34,7 @@ public class VarastoTest {
     public void toinenConstructor() {
     	assertEquals(0, new Varasto(-1, 1).getTilavuus(), vertailuTarkkuus);
     	assertEquals(1, new Varasto(1, 1).getTilavuus(), vertailuTarkkuus);
-    	assertEquals(-1, new Varasto(-1, 1).getSaldo(), vertailuTarkkuus); // Bugi?
+    	assertEquals(0, new Varasto(-1, 1).getSaldo(), vertailuTarkkuus); // Bug fixed
     	assertEquals(1, new Varasto(1, 1).getSaldo(), vertailuTarkkuus);
     	assertEquals(0, new Varasto(-1, -1).getSaldo(), vertailuTarkkuus);
     }
